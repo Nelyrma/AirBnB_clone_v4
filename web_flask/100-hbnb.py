@@ -3,6 +3,7 @@
 from models import storage
 from models.state import State
 from models.city import City
+from models.user import User
 from models.amenity import Amenity
 from models.place import Place
 from os import environ
@@ -32,6 +33,10 @@ def hbnb():
     amenities = sorted(amenities, key=lambda k: k.name)
 
     places = storage.all(Place).values()
+
+    for place in places:
+        place.user = storage.get(User, place.user_id)
+        
     places = sorted(places, key=lambda k: k.name)
 
     return render_template('100-hbnb.html',
